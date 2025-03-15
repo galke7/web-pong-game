@@ -9,6 +9,7 @@ const startButton = document.getElementById('start-button');
 
 // Game state
 let gameRunning = false;
+let gameEnded = false;
 let playerScore = 0;
 let computerScore = 0;
 let ballX = 390;
@@ -73,6 +74,7 @@ function startGame() {
     }
     
     gameRunning = true;
+    gameEnded = false;
     startButton.textContent = 'Restart Game';
     init();
     requestAnimationFrame(gameLoop);
@@ -94,10 +96,13 @@ function gameLoop(timestamp) {
     
     // Check for win condition
     if (playerScore >= winningScore || computerScore >= winningScore) {
-        gameRunning = false;
-        startButton.textContent = 'New Game';
-        const winner = playerScore >= winningScore ? 'You win!' : 'Computer wins!';
-        alert(winner);
+        if (!gameEnded) {
+            gameEnded = true;
+            gameRunning = false;
+            startButton.textContent = 'New Game';
+            const winner = playerScore >= winningScore ? 'You win!' : 'Computer wins!';
+            alert(winner);
+        }
         return;
     }
     
@@ -219,7 +224,7 @@ function increaseBallSpeed() {
 
 // Reset ball after scoring
 function resetBall() {
-    if (!gameRunning) return;
+    if (!gameRunning || gameEnded) return;
     
     ballX = boardWidth / 2 - ballSize / 2;
     ballY = boardHeight / 2 - ballSize / 2;
@@ -228,11 +233,25 @@ function resetBall() {
     ballSpeedX = 5 * (computerScore > playerScore ? -1 : 1);
     ballSpeedY = (Math.random() * 4 - 2);
     
+    // Check if game has ended before pausing
+    if (playerScore >= winningScore || computerScore >= winningScore) {
+        gameEnded = true;
+        gameRunning = false;
+        startButton.textContent = 'New Game';
+        const winner = playerScore >= winningScore ? 'You win!' : 'Computer wins!';
+        setTimeout(() => {
+            alert(winner);
+        }, 100);
+        return;
+    }
+    
     // Pause briefly
     gameRunning = false;
     setTimeout(() => {
-        gameRunning = true;
-        requestAnimationFrame(gameLoop);
+        if (!gameEnded) {
+            gameRunning = true;
+            requestAnimationFrame(gameLoop);
+        }
     }, 1000);
 }
 
