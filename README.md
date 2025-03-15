@@ -34,11 +34,58 @@ The game is built using:
 - Vanilla JavaScript for game logic and animations
 
 Key technical features:
+- Modular ES6 architecture with separate modules for different game components
 - Collision detection
 - Computer AI with adjustable difficulty
 - Smooth animations using requestAnimationFrame
 - Responsive paddle controls
 - Dynamic ball speed and angle calculations
+
+## Development
+
+### Project Structure
+
+The game is organized into modular components:
+- `main.js` - Entry point of the application
+- `collision.js` - Handles collision detection logic
+- `gameLoop.js` - Manages the game loop and updates
+- `gameState.js` - Manages the state of the game (scores, game over conditions)
+- `input.js` - Processes keyboard and mouse inputs
+- `rendering.js` - Updates the DOM to reflect game state
+
+### Testing
+
+The project includes a comprehensive test suite using Jest:
+
+```bash
+# Install dependencies
+npm install
+
+# Run tests
+npm test
+
+# Run tests with coverage report
+npm run test:coverage
+```
+
+Tests cover all game modules with unit tests for:
+- Collision detection
+- Game loop functionality
+- Game state management
+- Input handling
+- Rendering
+
+### Continuous Integration
+
+This project uses GitHub Actions for continuous integration. The CI pipeline:
+- Runs on every push and pull request to main/master branches
+- Installs dependencies
+- Runs linting checks
+- Executes the test suite
+- Uploads test coverage reports
+- Creates an issue if tests fail
+
+You can view the CI configuration in `.github/workflows/ci.yml`.
 
 ## License
 
