@@ -196,13 +196,19 @@ function updateComputerPaddle() {
     const paddleCenter = computerPaddleY + PADDLE_HEIGHT / 2;
     const ballCenter = ballY + BALL_SIZE / 2;
     
+    // Calculate a random offset between -20 and 20 pixels
+    const errorOffset = Math.random() * 40 - 20;
+    
     // Only move if the ball is moving toward the computer
     if (ballSpeedX > 0) {
         // Add some "thinking" delay and imperfection
         if (Math.random() < COMPUTER_DIFFICULTY) {
-            if (paddleCenter < ballCenter - 10) {
+            // Apply the error offset to the ball center to create a mistake factor
+            const targetY = ballCenter + errorOffset;
+            
+            if (paddleCenter < targetY - 10) {
                 computerPaddleY += PADDLE_SPEED * 0.7;
-            } else if (paddleCenter > ballCenter + 10) {
+            } else if (paddleCenter > targetY + 10) {
                 computerPaddleY -= PADDLE_SPEED * 0.7;
             }
         }
