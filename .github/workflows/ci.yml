@@ -1,5 +1,9 @@
 name: Pong Game CI
 
+permissions:
+  issues: write
+  contents: read
+
 on:
   push:
     branches: [ main, master ]
@@ -35,8 +39,6 @@ jobs:
           path: coverage/
         
   create-issue:
-    permissions:
-      issues: write
     needs: test
     if: ${{ failure() && github.event_name == 'push' }}
     runs-on: ubuntu-latest
