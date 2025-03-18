@@ -24,7 +24,7 @@ jobs:
         id: install
 
       - name: Run linting
-        run: eslint js/
+        run: npm run lint
 
       - name: Format code
         run: npx prettier --check .
